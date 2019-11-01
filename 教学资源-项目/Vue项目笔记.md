@@ -306,6 +306,14 @@ new Vue({
 
 ### 配置路由
 
+​      0 新建分支专门写登陆功能
+
+​	git branch
+
+​	git checkout -b dev-login
+
+​	接下来写得代码都在该分支
+
 1. 新建views/login.vue
 
    在components中新建login文件并且创建login.vue
@@ -316,7 +324,21 @@ new Vue({
 
 2. 配置路由
 
-   
+   在router.js里加入
+
+   其中@相当于src这是webpack提供的
+
+   import Login from '@/components/login/login.vue'
+
+   {
+
+   ​    name: 'login',
+
+   ​    path: '/login',
+
+   ​    component: Login
+
+     }
 
 3. 测试组件
 
