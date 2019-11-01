@@ -342,6 +342,16 @@ new Vue({
 
 3. 测试组件
 
+   在App.vue中加入<router-view></router-view>
+
+   提交分支代码
+
+   git add .
+
+   git commit -m ""新建登录分支新建登录组件配置路由""
+
+   记住不用提交到远程，等到合并的时候再提交
+
 `views/login.vue`
 
 ```html
@@ -392,6 +402,8 @@ export default new Router({
 ### 布局登录页面
 
 > 在[element-ui](http://element-cn.eleme.io/#/zh-CN/component/form)中找类似的效果对应的代码进行修改
+>
+> el官网中直接搜表单
 
 `element-ui`中的代码
 
@@ -427,7 +439,7 @@ export default new Router({
 </template>
 
 <script>
-export default {
+export default {			//输出的是一个vue组件，所以data必须是函数并且返回一个对象，vue实例就不用
   data () {
     return {
       formData: {
@@ -497,6 +509,8 @@ export default {
 
 `App.vue`
 
+<div id="app"><router-view/></div>
+
 ```css
 <style>
 #app{
@@ -525,6 +539,35 @@ import '@/assets/css/style.css'
 ```
 
 ### 导入axios
+
+```
+加入axios依赖
+npm i axios
+之前配置全局axios的时候，不用每个组件都导入axios在main.js里这样配
+// 配置所有Vue的实例都具有$http这个成员
+Vue.prototype.$http = axios;
+
+//现在我们可以把axios变成插件，axios原本不是插件
+创建文件plugins下创建http.js
+// 插件模块
+
+import axios from 'axios'
+
+const MyHttpServer = {}
+
+MyHttpServer.install = (Vue) => {
+  // 添加实例方法
+  Vue.prototype.$http = axios
+}
+
+export default MyHttpServer
+
+然后在main.js里
+Vue.use(MyHttpServer)
+
+```
+
+
 
 > 接下来要实现登录功能
 >
