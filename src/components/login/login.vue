@@ -29,11 +29,13 @@ export default {
       // 使用es7的await和async来使异步代码看起来像同步代码
       const result = await this.$http.post('login', this.formData)
 
-      const {meta: {status, msg}} = result.data
+      const {data, meta: {status, msg}} = result.data
 
       if (status === 200) {
         // 1、跳转到首页
         this.$router.push({name: 'home'})
+        //本地存储token
+        localStorage.setItem('token', data.token);
         // 2、提示成功
         this.$message.success(msg)
       } else {

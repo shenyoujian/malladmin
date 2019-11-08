@@ -655,46 +655,62 @@ export default {
 
 ### 使用async和await
 
-> 将login.vue中的网络请求换一种方式去写
->
-> 这里使用了async和await，async和await的作用是使异步操作的代码看起来像同步操作就是一行一行执行这是es7的特性
->
-> 步骤
->
-> 1、给异步操作的代码前面加上await并且赋值返回的结果
->
-> 2、找到离异步操作结果最近的方法加上async
->
-> ```js
-> // 发起登录请求*
-> 
-> ​    async handleLogin () {
-> 
-> ​      *// 使用es7的await和async来使异步代码看起来像同步代码*
-> 
-> ​      const result = await this.$http.post('login', this.formData)
-> 
-> ​      const {meta: {status, msg}} = result.data
-> 
-> ​      if (status === 200) {
-> 
-> ​        *// 1、跳转到首页*
-> 
-> ​        this.$router.push({name: 'home'})
-> 
-> ​        *// 2、提示成功*
-> 
-> ​        this.$message.success(msg)
-> 
-> ​      } else {
-> 
-> ​        *// 提示失败*
-> 
-> ​        this.$message.warning(msg)
-> 
->    }
+ 将login.vue中的网络请求换一种方式去写
 
-``` 
+这里使用了async和await，async和await的作用是使异步操作的代码看起来像同步操作就是一行一行执行这是es7的特性
+
+ 步骤
+
+ 1、给异步操作的代码前面加上await并且赋值返回的结果
+
+ 2、找到离异步操作结果最近的方法加上async
+
+ ```js
+ // 发起登录请求*
+ 
+     async handleLogin () {
+ 
+       *// 使用es7的await和async来使异步代码看起来像同步代码*
+ 
+       const result = await this.$http.post('login', this.formData)
+ 
+      const {meta: {status, msg}} = result.data
+ 
+       if (status === 200) {
+ 
+         *// 1、跳转到首页*
+ 
+         this.$router.push({name: 'home'})
+ 
+        *// 2、提示成功*
+ 
+         this.$message.success(msg)
+ 
+       } else {
+ 
+         *// 提示失败*
+ 
+         this.$message.warning(msg)
+ 
+ }
+ ```
+
+### 保存token值
+
+​	目的：用户必须登录后才能访问home页面
+
+​	方法：在login页面登录成功后保存token值，然后在访问home页面的时候判断
+
+```js
+ *//本地存储token*
+
+  localStorage.setItem('token', data.token);
+
+```
+
+
+
+​	
 
 `login.vue/script`
 
@@ -818,6 +834,12 @@ export default new Router({
 #### 页面结构:
 
 >  这里我们使用的是 Element 组件库自带的 [Layout 布局](http://element.eleme.io/#/zh-CN/component/layout) 来完成 Header 组件基本结构。
+>
+>  行 el-row
+>
+>  列 el-col
+>
+>  注意：24栏
 
 ```html
   <el-header class="header">
@@ -882,6 +904,14 @@ h2 {
 ### 左侧导航菜单
 
 > 这里我们使用element-ui的[NavMenu导航菜单](http://element-cn.eleme.io/#/zh-CN/component/menu)
+>
+> el-menu
+>
+> 两个重要的属性:
+>
+> router 开启路由模式 true   index值==path值
+>
+> unique-opened是否只保持一个子菜单的展开
 
 `home.vue/template`
 
