@@ -318,7 +318,7 @@ new Vue({
 
    在components中新建login文件并且创建login.vue
 
-   在vscode中快速创建vue模板
+   在vscode中快速创建vue模板 !v
 
    <https://segmentfault.com/a/1190000014232556>，如果还是没有需要把之前设置的vue给删除掉
 
@@ -563,6 +563,7 @@ MyHttpServer.install = (Vue) => {
 export default MyHttpServer
 
 然后在main.js里
+import MyHttpServer from '@/plugins/http.js'
 Vue.use(MyHttpServer)
 
 ```
@@ -588,7 +589,7 @@ import axios from 'axios'
 const httpHelper = {}
 // 配置Vue插件
 httpHelper.install = function fn (Vue) {
-  axios.defaults.baseURL = 'http://127.0.0.1:8888/api/private/v1'
+  axios.defaults.baseURL = 'http://127.0.0.1:8888/api/private/v1/'
   Vue.prototype.$http = axios
 }
 
@@ -637,7 +638,7 @@ export default {
       this.$http.post('login', this.formData)
         .then((res) => {
           const data = res.data
-          const {meta: {status, msg}} = data
+          const {meta: {status, msg}} = data				//解构赋值
           if (status === 200) {
             const token = data.data.token
             sessionStorage.setItem('token', token)
@@ -656,7 +657,44 @@ export default {
 
 > 将login.vue中的网络请求换一种方式去写
 >
-> 这里使用了async和await
+> 这里使用了async和await，async和await的作用是使异步操作的代码看起来像同步操作就是一行一行执行这是es7的特性
+>
+> 步骤
+>
+> 1、给异步操作的代码前面加上await并且赋值返回的结果
+>
+> 2、找到离异步操作结果最近的方法加上async
+>
+> ```js
+> // 发起登录请求*
+> 
+> ​    async handleLogin () {
+> 
+> ​      *// 使用es7的await和async来使异步代码看起来像同步代码*
+> 
+> ​      const result = await this.$http.post('login', this.formData)
+> 
+> ​      const {meta: {status, msg}} = result.data
+> 
+> ​      if (status === 200) {
+> 
+> ​        *// 1、跳转到首页*
+> 
+> ​        this.$router.push({name: 'home'})
+> 
+> ​        *// 2、提示成功*
+> 
+> ​        this.$message.success(msg)
+> 
+> ​      } else {
+> 
+> ​        *// 提示失败*
+> 
+> ​        this.$message.warning(msg)
+> 
+>    }
+
+``` 
 
 `login.vue/script`
 

@@ -15,33 +15,49 @@
 
 <script>
 export default {
-  data() {
-      return {
-        formData: {
-            username:'',
-            password:''
-        }
+  data () {
+    return {
+      formData: {
+        username: '',
+        password: ''
       }
+    }
   },
-  methods : {
-      //发起登录请求
-      handleLogin () {
-          this.$http.post('login', this.formData)
-          .then((res)=>{
-              const {meta: {status, msg}}= res.data
-              if(status === 200) {
-                  //1、跳转首页
-                  this.$router.push({name:'home'})
-                  //2、提示成功
-                  this.$message.success(msg)
-              } else {
-                  //提示失败
-                  this.$message.warning(msg)
-              }
-          })
+  methods: {
+    // 发起登录请求
+    async handleLogin () {
+      // 使用es7的await和async来使异步代码看起来像同步代码
+      const result = await this.$http.post('login', this.formData)
+
+      const {meta: {status, msg}} = result.data
+
+      if (status === 200) {
+        // 1、跳转到首页
+        this.$router.push({name: 'home'})
+        // 2、提示成功
+        this.$message.success(msg)
+      } else {
+        // 提示失败
+        this.$message.warning(msg)
       }
+
+      // 异步代码操作
+      // this.$http.post('login', this.formData)
+      //   .then((res) => {
+      //     const {meta: {status, msg}} = res.data
+      //     if (status === 200) {
+      //       // 1、跳转首页
+      //       this.$router.push({name: 'home'})
+      //       // 2、提示成功
+      //       this.$message.success(msg)
+      //     } else {
+      //       // 提示失败
+      //       this.$message.warning(msg)
+      //     }
+      //   })
+    }
   }
-};
+}
 </script>
 <style>
 .login-wrap {
