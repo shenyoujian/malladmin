@@ -1066,6 +1066,8 @@ if (status === 200) {
 > 如果用户没登录 ,就无法进入到home页
 >
 > 所以, 要进行判断验证 token
+>
+> 注意这里是localStorage
 
 `home.vue/script`
 

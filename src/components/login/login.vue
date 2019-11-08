@@ -30,12 +30,13 @@ export default {
       const result = await this.$http.post('login', this.formData)
 
       const {data, meta: {status, msg}} = result.data
-
+      console.log(data)
       if (status === 200) {
         // 1、跳转到首页
         this.$router.push({name: 'home'})
         //本地存储token
         localStorage.setItem('token', data.token);
+        console.log(localStorage);
         // 2、提示成功
         this.$message.success(msg)
       } else {

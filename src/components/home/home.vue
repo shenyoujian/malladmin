@@ -95,15 +95,16 @@
 
 <script>
 export default {
-  // beforeCreate() {
-  //   //从session中获取token 判断是否有token
-  //   const token = sessionStorage.getItem('token');
-  //   if(!token) {
-  //     //返回登录页
-  //     this.$router.push({name: 'login'})
-  //     this.$message.warning('请先登录')
-  //   }
-  // },
+  beforeCreate() {
+    //从session中获取token 判断是否有token
+    const token = localStorage.getItem('token');
+    console.log(token);
+    if(!token) {
+      //返回登录页
+      this.$router.push({name: 'login'})
+      this.$message.warning('请先登录')
+    }
+  },
   methods: {
     //退出
     handleSignout() {
@@ -112,7 +113,7 @@ export default {
         //返回登录页
         this.$router.push({name: 'login'})
         //提示退出成功
-        this.$message.warning('退出成功')
+        this.$message.success('退出成功')
     }
   },
 };
